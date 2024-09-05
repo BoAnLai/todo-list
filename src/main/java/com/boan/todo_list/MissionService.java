@@ -1,6 +1,6 @@
 package com.boan.todo_list;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +51,7 @@ public class MissionService {
 
 		mission.setCompleted(!mission.isCompleted());
 		if (mission.isCompleted()) {
-			mission.setLastCompletedTime(ZonedDateTime.now());
+			mission.setLastCompletedTime(LocalDateTime.now());
 		}
 
 		missionRepo.save(mission);

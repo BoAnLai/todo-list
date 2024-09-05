@@ -1,9 +1,14 @@
 package com.boan.todo_list;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,6 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "missions")
+@EntityListeners(AuditingEntityListener.class)
 public class Mission {
 
 	@Id
@@ -27,13 +33,21 @@ public class Mission {
 	private boolean completed;
 
 	@Column(name = "created_time")
-	private ZonedDateTime createdTime;
+	private LocalDateTime createdTime;
 
 	@Column(name = "last_completed_time")
-	private ZonedDateTime lastCompletedTime;
+	private LocalDateTime lastCompletedTime;
 
 	@Column(name = "hidden")
 	private boolean hidden;
+
+	@Column(name = "created_by")
+	@CreatedBy
+	private String createdBy;
+
+	@Column(name = "last_modified_by")
+	@LastModifiedBy
+	private String lastModifiedBy;
 
 	public Mission() {
 	};
@@ -42,7 +56,7 @@ public class Mission {
 		this.name = name;
 		this.description = description;
 		this.completed = false;
-		this.createdTime = ZonedDateTime.now();
+		this.createdTime = LocalDateTime.now();
 		this.hidden = false;
 	}
 
@@ -78,19 +92,19 @@ public class Mission {
 		this.completed = completed;
 	}
 
-	public ZonedDateTime getCreatedTime() {
+	public LocalDateTime getCreatedTime() {
 		return createdTime;
 	}
 
-	public void setCreatedTime(ZonedDateTime createdTime) {
+	public void setCreatedTime(LocalDateTime createdTime) {
 		this.createdTime = createdTime;
 	}
 
-	public ZonedDateTime getLastCompletedTime() {
+	public LocalDateTime getLastCompletedTime() {
 		return lastCompletedTime;
 	}
 
-	public void setLastCompletedTime(ZonedDateTime lastCompletedTime) {
+	public void setLastCompletedTime(LocalDateTime lastCompletedTime) {
 		this.lastCompletedTime = lastCompletedTime;
 	}
 
@@ -106,6 +120,6 @@ public class Mission {
 	public String toString() {
 		return "Mission [id=" + id + ", name=" + name + ", description=" + description + ", completed=" + completed
 				+ ", createdTime=" + createdTime + ", lastCompletedTime=" + lastCompletedTime + ", hidden=" + hidden
-				+ "]";
+				+ ", createdBy=" + createdBy + ", lastModifiedBy=" + lastModifiedBy + "]";
 	}
 }
