@@ -22,6 +22,12 @@ public class IpCaptureFilter extends OncePerRequestFilter {
 //		System.out.println("local addr:" + req.getLocalAddr());
 
 		String ipAddress = req.getRemoteAddr();
+
+		if ("0:0:0:0:0:0:0:1".equals(ipAddress) || "::1".equals(ipAddress)) {
+			ipAddress = "127.0.0.1"; // Convert to IPv4 loopback address
+		}
+
+		System.out.println(ipAddress);
 		UserContext.setIpAddress(ipAddress);
 		filterChain.doFilter(req, res);
 	}
